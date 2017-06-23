@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .form-select{
+            height: auto;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-2 m-b-xs">
+                            <select class=" form-control form-select input-s-sm inline">
+                                <option value="0">城市</option>
+                                <option value="1">总人数</option>
+                                <option value="2">外省人数</option>
+                                <option value="3">本省人数</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 m-b-xs">
+                            <select class="form-control form-select input-s-sm inline">
+                                <option value="0">区县</option>
+                                <option value="1">总人数</option>
+                                <option value="2">外省人数</option>
+                                <option value="3">本省人数</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 m-b-xs">
+                            <div data-toggle="buttons" class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary">查询</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-bottom:none;background:#fff;">
+                    <h5>访客位置热力分布</h5>
+                </div>
+                <div class="ibox-content" style="border-top:none;">
+                    <div id="main" style="height:600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+<!-- 自定义js -->
+<script src="echarts.js"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script src="http://gallery.echartsjs.com/dep/echarts/latest/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+<!--flotdemo-->
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("main");
+    map.centerAndZoom(new BMap.Point(116.403765, 39.914850), 3);
+    map.enableScrollWheelZoom();
+    function addlabel() {
+        var pointArray = [
+            new BMap.Point(121.716076,23.703799),
+            new BMap.Point(112.121885,14.570616),
+            new BMap.Point(123.776573,25.695422)];
+        var optsArray = [{},{},{}];
+        var labelArray = [];
+        var contentArray = [
+            "台湾是中国的！",
+            "南海是中国的！",
+            "钓鱼岛是中国的！"];
+        for(var i = 0;i < pointArray.length; i++) {
+            optsArray[i].position = pointArray[i];
+            labelArray[i] = new BMap.Label(contentArray[i],optsArray[i]);
+            labelArray[i].setStyle({
+                color : "red",
+                fontSize : "12px",
+                height : "20px",
+                lineHeight : "20px",
+                fontFamily:"微软雅黑"
+            });
+            map.addOverlay(labelArray[i])
+            map.addControl(new BMap.NavigationControl());        // 添加平移缩放控件
+            map.addControl(new BMap.ScaleControl());             // 添加比例尺控件
+            map.addControl(new BMap.OverviewMapControl());       //添加缩略地图控件
+            map.enableScrollWheelZoom();                         //启用滚轮放大缩小
+            map.disable3DBuilding();
+            //个性化在线编辑器地址：http://developer.baidu.com/map/custom/
+            var styleJson =[
+                {
+                    "featureType": "all",
+                    "elementType": "all",
+                    "stylers": {
+                        "lightness": 10,
+                        "saturation": -100
+                    }
+                }
+            ];
+            map.setMapStyle({styleJson:styleJson});
+        }
+    }
+
+    var blist = [];
+    var districtLoading = 0;
+
+    function getBoundary() {
+        addDistrict("济南");
+        addDistrict("德州");
+        addDistrict("淄博市");
+        addDistrict("聊城市");
+        addDistrict("滨州市");
+        addDistrict("莱芜市");
+        addDistrict("泰安市");
+        addDistrict("菏泽市");
+        addDistrict("枣庄市");
+        addDistrict("济宁市");
+        addDistrict("临沂市");
+        addDistrict("烟台市");
+        addDistrict("青岛市");
+        addDistrict("威海市");
+        addDistrict("日照市");
+        addDistrict("潍坊市");
+        addDistrict("东营市");
+    }
+    /**
+     * 添加行政区划
+     * @param {} districtName 行政区划名
+     * @returns  无返回值
+     */
+    function addDistrict(districtName) {
+        //使用计数器来控制加载过程
+        districtLoading++;
+        var bdary = new BMap.Boundary();
+
+        bdary.get(districtName, function (rs) {       //获取行政区域
+            var count = rs.boundaries.length; //行政区域的点有多少个
+            if (count === 0) {
+                alert('未能获取当前输入行政区域');
+                return;
+            }
+            for (var i = 0; i < count; i++) {
+                blist.push({ points: rs.boundaries[i], name: districtName });
+            };
+            //加载完成区域点后计数器-1
+            districtLoading--;
+            if (districtLoading == 0) {
+                //全加载完成后画端点
+                drawBoundary();
+            }
+
+        });
+    }
+
+
+    /**
+     * 各种鼠标事件绑定
+     */
+    function click(evt) {
+        alert(evt.target.name);
+    }
+
+    function mouseover(evt) {
+        evt.target.label.setZIndex(99);
+        evt.target.label.setPosition(evt.point);
+        evt.target.label.show();
+    }
+
+    function mousemove(evt) {
+        evt.target.label.setPosition(evt.point);
+    }
+
+    function mouseout(evt) {
+        evt.target.label.hide();
+    }
+
+    function drawBoundary() {
+        //包含所有区域的点数组
+        var pointArray = [];
+        /*画遮蔽层的相关方法
+         *思路: 首先在中国地图最外画一圈，圈住理论上所有的中国领土，然后再将每个闭合区域合并进来，并全部连到西北角。
+         *      这样就做出了一个经过多次西北角的闭合多边形*/
+        //定义中国东南西北端点，作为第一层
+        var pNW = { lat: 59.0, lng: 73.0 };
+        var pNE = { lat: 59.0, lng: 136.0 };
+        var pSE = { lat: 3.0, lng: 136.0 };
+        var pSW = { lat: 3.0, lng: 73.0 };
+        //向数组中添加一次闭合多边形，并将西北角再加一次作为之后画闭合区域的起点
+        var pArray = [];
+        pArray.push(pNW);
+        pArray.push(pSW);
+        pArray.push(pSE);
+        pArray.push(pNE);
+        pArray.push(pNW);
+        //循环添加各闭合区域
+        for (var i = 0; i < blist.length; i++) {
+            //添加显示用标签层
+            var label = new BMap.Label(blist[i].name, { offset: new BMap.Size(20, -10) });
+            label.hide();
+            //添加多边形层并显示
+            var ply = new BMap.Polygon(blist[i].points, { strokeWeight: 5, strokeColor: "#ffffff", fillOpacity: 0.01, fillColor: " #FFFFFF" }); //建立多边形覆盖物
+            ply.name = blist[i].name;
+            ply.label = label;
+            ply.addEventListener("click", click);
+            ply.addEventListener("mouseover", mouseover);
+            ply.addEventListener("mouseout", mouseout);
+            ply.addEventListener("mousemove", mousemove);
+//            map.addOverlay(ply);
+            //添加名称标签层
+            var centerlabel = new BMap.Label(blist[i].name, { offset: new BMap.Size(0, 0) });
+            map.addOverlay(centerlabel);
+            //将点增加到视野范围内
+            var path = ply.getPath();
+            pointArray = pointArray.concat(path);
+            //将闭合区域加到遮蔽层上，每次添加完后要再加一次西北角作为下次添加的起点和最后一次的终点
+            pArray = pArray.concat(path);
+            pArray.push(pArray[0]);
+        }
+
+        //限定显示区域，需要引用api库
+        var boundply = new BMap.Polygon(pointArray);
+        map.setViewport(pointArray);    //调整视野
+        addlabel();
+        //添加遮蔽层
+        var plyall = new BMap.Polygon(pArray, { strokeOpacity: 0.0000001, strokeColor: "#000000", strokeWeight: 0.00001, fillColor: "#000", fillOpacity: 0.2 }); //建立多边形覆盖物
+        map.addOverlay(plyall);
+    }
+
+    setTimeout(function () {
+        getBoundary();
+    }, 100);
+
+
+    var points =[
+        {"lng":117,"lat":36.65,"count":90000},
+        {"lng":117.53,"lat":36.72,"count":5000},
+        {"lng":116.73,"lat":36.55,"count":5000},
+        {"lng":117.53,"lat":36.72,"count":5000},
+        {"lng":120.33,"lat":36.07,"count":5000},
+        {"lng":120.42,"lat":36.15,"count":5000},
+        {"lng":119.97,"lat":35.88,"count":5000},
+        {"lng":120.45,"lat":36.38,"count":5000},
+        {"lng":118.05,"lat":36.78,"count":5000},
+        {"lng":117.57,"lat":34.86,"count":5000},
+        {"lng":117.17,"lat":35.09,"count":5000},
+        {"lng":118.49,"lat":37.46,"count":5000},
+        {"lng":118.54,"lat":37.59,"count":5000},
+        {"lng":118.25,"lat":37.49,"count":5000},
+        {"lng":116.29,"lat":37.45,"count":5000},
+        {"lng":116.8,"lat":37.64,"count":5000},
+        {"lng":117.22,"lat":37.74,"count":5000},
+        {"lng":117.15,"lat":37.31,"count":5000},
+        {"lng":117.2,"lat":36.97,"count":5000},
+        {"lng":116.66,"lat":36.95,"count":5000},
+        {"lng":116	  ,"lat":36.95,"count":5000},
+        {"lng":116.58,"lat":37.34,"count":5000},
+        {"lng":117.37,"lat":37.37,"count":5000},
+        {"lng":116.86,"lat":37.2,"count":5000},
+        {"lng":116.76,"lat":36.79,"count":5000},
+        {"lng":116.44,"lat":37.16,"count":5000},
+        {"lng":116.08,"lat":37.2,"count":5000},
+        {"lng":118.03,"lat":37.36,"count":5000},
+
+        {"lng":117.97,"lat":37.47,"count":5000},
+        {"lng":118.41,"lat":37.04,"count":5000},
+        {"lng":118.12,"lat":36.95,"count":5000},
+        {"lng":117.75,"lat":36.89,"count":5000},
+        {"lng":117.58,"lat":37.65,"count":5000},
+        {"lng":118.14,"lat":37.7,"count":5000},
+        {"lng":118.12,"lat":37.12,"count":5000},
+        {"lng":117.66,"lat":37.18,"count":5000},
+        {"lng":117.51,"lat":17.49,"count":5000},
+        {"lng":117.58,"lat":37.73,"count":5000},
+        {"lng":119.1,"lat":36.62,"count":5000},
+        {"lng":119.22,"lat":36.77,"count":5000},
+        {"lng":119.97,"lat":36.77,"count":5000},
+        {"lng":119.42,"lat":35.99,"count":5000},
+        {"lng":119.2,"lat":36.42,"count":5000},
+        {"lng":118.53,"lat":36.5,"count":5000},
+        {"lng":118.73,"lat":36.86,"count":5000},
+        {"lng":119.41,"lat":36.86,"count":5000},
+        {"lng":119.75,"lat":36.38,"count":5000},
+        {"lng":119.2,"lat":35.74,"count":5000},
+        {"lng":118.83,"lat":36.69,"count":5000},
+        {"lng":118.47,"lat":36.69,"count":5000},
+        {"lng":121.39,"lat":37.52,"count":5000},
+        {"lng":121.59,"lat":37.38,"count":5000},
+        {"lng":122.05,"lat":37.2,"count":5000},
+        {"lng":121.17,"lat":36.76,"count":5000},
+        {"lng":120.71,"lat":36.97,"count":5000},
+        {"lng":120.83,"lat":37.28,"count":5000},
+        {"lng":119.93,"lat":37.18,"count":5000},
+        {"lng":120.73,"lat":37.91,"count":5000},
+        {"lng":122.1,"lat":37.5,"count":5000},
+        {"lng":121.27,"lat":37.49,"count":5000},
+        {"lng":122.41,"lat":37.16,"count":5000},
+        {"lng":121.52,"lat":36.89,"count":5000},
+        {"lng":120.53,"lat":36.86,"count":5000},
+        {"lng":120.38,"lat":37.35,"count":5000},
+        {"lng":120.51,"lat":37.64,"count":5000},
+        {"lng":120.75,"lat":37.8,"count":5000},
+        {"lng":118.35,"lat":35.05,"count":5000},
+        {"lng":118.64,"lat":35.78,"count":5000},
+        {"lng":119.46,"lat":35.42,"count":5000},
+        {"lng":118.73,"lat":34.89,"count":5000},
+        {"lng":118.03,"lat":34.84,"count":5000},
+        {"lng":117.63,"lat":35.49,"count":5000},
+        {"lng":118.17,"lat":36.18,"count":5000},
+        {"lng":118.47,"lat":35.54,"count":5000},
+        {"lng":118.83,"lat":35.57,"count":5000},
+        {"lng":118.83,"lat":35.17,"count":5000},
+        {"lng":118.35,"lat":34.61,"count":5000},
+        {"lng":117.97,"lat":35.26,"count":5000},
+        {"lng":117.95,"lat":35.7,"count":5000},
+        {"lng":117.13,"lat":36.18,"count":5000},
+        {"lng":117.67,"lat":36.19,"count":5000},
+        {"lng":116.76,"lat":36.24,"count":5000},
+        {"lng":116.46,"lat":36.29,"count":5000},
+        {"lng":117.67,"lat":35.86,"count":5000},
+        {"lng":117.76,"lat":35.91,"count":5000},
+        {"lng":116.8,"lat":35.76,"count":5000},
+        {"lng":116.3,"lat":35.91,"count":5000},
+        {"lng":116.59,"lat":35.38,"count":5000},
+        {"lng":116.83,"lat":35.54,"count":5000},
+        {"lng":117.27,"lat":35.65,"count":5000},
+        {"lng":116.65,"lat":35,"count":5000},
+        {"lng":116.34,"lat":35.41,"count":5000},
+        {"lng":116.49,"lat":35.71,"count":5000},
+        {"lng":116.98,"lat":35.59,"count":5000},
+        {"lng":116.97,"lat":35.39,"count":5000},
+        {"lng":117.12,"lat":34.8,"count":5000},
+        {"lng":116.32,"lat":35.07,"count":5000},
+        {"lng":115.43,"lat":35.24,"count":5000},
+        {"lng":115.94,"lat":35.59,"count":5000},
+        {"lng":116.08,"lat":35.38,"count":5000},
+        {"lng":116.07,"lat":34.82,"count":5000},
+        {"lng":115.53,"lat":34.83,"count":5000},
+        {"lng":115.5,"lat":35.57,"count":5000},
+        {"lng":116.1,"lat":35.8,"count":5000},
+        {"lng":115.88,"lat":34.97,"count":5000},
+        {"lng":115.57,"lat":35.07,"count":5000},
+        {"lng":115.08,"lat":35.31,"count":5000},
+        {"lng":115.97,"lat":36.45,"count":5000},
+        {"lng":116.23,"lat":36.86,"count":5000},
+        {"lng":116.23,"lat":36.32,"count":5000},
+        {"lng":115.67,"lat":36.24,"count":5000},
+        {"lng":115.72,"lat":36.68,"count":5000},
+        {"lng":116.27,"lat":36.58,"count":5000},
+        {"lng":115.78,"lat":36.11,"count":5000},
+        {"lng":115.45,"lat":35.47,"count":5000},
+
+    ];
+
+
+    if(!isSupportCanvas()){
+        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~')
+    }
+    //详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
+    //参数说明如下:
+    /* visible 热力图是否显示,默认为true
+     * opacity 热力的透明度,1-100
+     * radius 势力图的每个点的半径大小
+     * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
+     *	{
+     .2:'rgb(0, 255, 255)',
+     .5:'rgb(0, 110, 255)',
+     .8:'rgb(100, 0, 255)'
+     }
+     其中 key 表示插值的位置, 0~1.
+     value 为颜色值.
+     */
+    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+    map.addOverlay(heatmapOverlay);
+    heatmapOverlay.setDataSet({data:points,max:100});
+    //是否显示热力图
+    function openHeatmap(){
+        heatmapOverlay.show();
+    }
+    function closeHeatmap(){
+        heatmapOverlay.hide();
+    }
+    openHeatmap();
+    function setGradient(){
+        /*格式如下所示:
+         {
+         0:'rgb(102, 255, 0)',
+         .5:'rgb(255, 170, 0)',
+         1:'rgb(255, 0, 0)'
+         }*/
+        var gradient = {};
+        var colors = document.querySelectorAll("input[type='color']");
+        colors = [].slice.call(colors,0);
+        colors.forEach(function(ele){
+            gradient[ele.getAttribute("data-key")] = ele.value;
+        });
+        heatmapOverlay.setOptions({"gradient":gradient});
+    }
+    //判断浏览区是否支持canvas
+    function isSupportCanvas(){
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    }
+</script>
+</body>
+
+</html>

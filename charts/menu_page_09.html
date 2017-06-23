@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <title></title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .form-control{
+            height: auto;
+        }
+        .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal" id="view-form">
+                        <div class="input-daterange">
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">起始日期</label>
+                                <div class="col-xs-9">
+                                    <input class="form-control form_datetime" name="start"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-xs-3 control-label">截止日期</label>
+                                <div class="col-xs-9">
+                                    <input class="form-control  form_datetime2" name="end" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">省份</label>
+                            <div class="col-xs-9">
+                                <select class="form-control m-b " name="provinceId">
+                                    <option value="370000">山东</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">城市</label>
+
+                            <div class="col-xs-9">
+                                <select class="form-control m-b " name="cityid">
+                                    <option value="370100">济南</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">地区</label>
+
+                            <div class="col-xs-9">
+                                <select class="form-control m-b " name="districtid">
+                                    <option value="370102">历下区</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">景区</label>
+
+                            <div class="col-xs-9">
+                                <select class="form-control m-b " name="districtid">
+                                    <option value="damimnghu">大明湖</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-9 col-xs-offset-3">
+                                <button class="btn btn-primary" type="submit" onclick="search()">查看</button>
+                                <button class="btn btn-white" type="submit">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!--日期时间选择插件-->
+    <script src="js/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link href="css/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="js/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <link href="css/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script>
+        function search(){
+            var viewlist=$("#view-form").serialize();
+            top.location.href="m9.html?"+viewlist
+        }
+        $(".input-daterange").datepicker({
+            language: "zh-CN",
+            autoclose: true
+        });
+
+    </script>
+</body>
+
+</html>

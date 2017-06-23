@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .form-select{
+            height: auto;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-2 m-b-xs">
+                            <select class=" form-control form-select input-s-sm inline">
+                                <option value="0">城市</option>
+                                <option value="1">总人数</option>
+                                <option value="2">外省人数</option>
+                                <option value="3">本省人数</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 m-b-xs">
+                            <select class="form-control form-select input-s-sm inline">
+                                <option value="0">区县</option>
+                                <option value="1">总人数</option>
+                                <option value="2">外省人数</option>
+                                <option value="3">本省人数</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 m-b-xs">
+                            <div data-toggle="buttons" class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary">查询</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-bottom:none;background:#fff;">
+                    <h5>景区拥挤度排行</h5>
+                </div>
+                <div class="ibox-content" style="border-top:none;">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content" style="border-top:none;background-color:#e4eaec;">
+                            <h5>千佛山</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 120%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-warning">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <h5>趵突泉</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 50%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar .progress-bar-danger">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <h5>大明湖</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 50%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+
+
+                            <h5>九如山</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 25%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-info">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <h5>泰山</h5>
+                            <div class="progress progress-striped active">
+                                <div style="width: 25%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar .progress-bar-danger">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+    <!-- 自定义js -->
+    <script src="echarts.js"></script>
+    <script>
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <title></title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .wrapper-content{
+            padding: 0;
+            height: 100%;
+        }
+        .black-bg2{
+            background: #404a59;
+        }
+        .row-content{
+            height: 100%;
+        }
+        .ibox{
+            border:0;
+            margin-bottom:0;
+        }
+        .ibox-title{
+            background: #404a59;
+            color:#fff
+        }
+    </style>
+</head>
+<body class="">
+<div class="wrapper wrapper-content black-bg2">
+    <div class="row black-bg2 row-content">
+
+        <div class="col-lg-9">
+            <div class="col-lg-12">
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <!--<div class="ibox-title" style="border-bottom:none;">-->
+                            <!--<h5>山东省各地市游客排行榜</h5>-->
+                        <!--</div>-->
+                        <div class="ibox-content black-bg2" style="border-top:none;">
+                            <div id="main5"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <!--<div class="ibox-title" style="border-bottom:none;">-->
+                            <!--<h5>地图</h5>-->
+                        <!--</div>-->
+                        <div class="ibox-content black-bg2" style="border-top:none; padding: 0">
+                            <div id="main"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <!--<div class="ibox-title" style="border-bottom:none;">-->
+                            <!--<h5>人数变化趋势（折线图）</h5>-->
+                        <!--</div>-->
+                        <div class="ibox-content black-bg2" style="border-top:none;">
+                            <div id="main3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <!--<div class="ibox-title" style="border-bottom:none;">-->
+                            <!--<h5>旅游综合热度+趋势图</h5>-->
+                        <!--</div>-->
+                        <div class="ibox-content black-bg2" style="border-top:none;">
+                            <div id="main4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <!--<div class="ibox-title" style="border-bottom:none;">-->
+                        <!--<h5>最佳承载人数设定</h5>-->
+                    <!--</div>-->
+                    <div class="ibox-content black-bg2" style="border-top:none; padding: 0">
+                        <div id="main2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+<!-- 自定义js -->
+<script src="echarts.js"></script>
+<script src="shine.js"></script>
+<script src="shine2.js"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script src="http://gallery.echartsjs.com/dep/echarts/latest/extension/bmap.min.js"></script>
+<!--flotdemo-->
+<!--flotdemo-->
+<script type="text/javascript">
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)return unescape(r[2]);
+        return null;
+    }
+    var styletype=getUrlParam("type")?getUrlParam("type"):"";
+
+    //         基于准备好的dom，初始化echarts实例
+    var windowHeight=document.body.clientHeight;
+    var mapHeight=windowHeight*0.6;
+    var mapHeight2=windowHeight*0.7;
+    var bottomHeight=windowHeight*0.25;
+    $("#main").height("500px");
+    $("#main5").height("500px");
+    $("#main2").height("820px");
+    $("#main3").height("300px");
+    $("#main4").height("300px");
+    var myChart = echarts.init(document.getElementById('main'),'shine'+styletype);
+
+    var myChart2 = echarts.init(document.getElementById('main2'), 'shine'+styletype);
+    var myChart3 = echarts.init(document.getElementById('main3'), 'shine'+styletype);
+    var myChart4 = echarts.init(document.getElementById('main4'), 'shine'+styletype);
+    var myChart5 = echarts.init(document.getElementById('main5'), 'shine'+styletype);
+    window.addEventListener('resize', function () {
+        myChart.resize();
+        myChart2.resize();
+        myChart3.resize();
+        myChart4.resize();
+    });
+    myChart.on('click', function (params) {
+        var city = params.name;
+        loadChart(city,3);
+    });
+
+    var jinanarea=[ '历下区', '市中区', '历城区', '天桥区', '槐荫区', '章丘区'];
+    var jinanvalue=[1002, 2012, 3214, 1237, 4562, 1237];
+    var jinanval1=[211, 231, 232, 475, 842, 123];
+    var shandongarea= [ '德州市', '淄博市', '聊城市', '滨州市', '莱芜市', '泰安市','菏泽市','枣庄市','济宁市','临沂市','烟台市','青岛市','威海市','日照市','潍坊市','东营市','济南市']
+    var shandongvalue= [10000, 11111, 33333, 43333, 44444, 52222,55555,61244,71241,75221,75512,89542,90124,92312,94000,100000,123541];
+    var shandongval1=[1000, 2000, 12341, 23432, 12123, 12334,54212,22212,11121,14522,12342,17532,18654,16454,20000,15423,16432];
+    var lixiaarea=['千佛山','趵突泉','大明湖'];
+    var lixiavalue=["2500","2000","3000"];
+    var lixiavalue1=["785","234","564"];
+
+    function  loadChart(city,type){
+        var area=shandongarea;
+        var val=shandongvalue;
+        var val1=shandongval1;
+        if(city=="济南市"||city=="济南"){
+            area=jinanarea;
+            val=jinanvalue;
+            val1=jinanval1;
+        }else if(city=="历下区"){
+            area=lixiaarea;
+            val=lixiavalue;
+            val1=lixiavalue1;
+        }
+        var option2 = {
+            backgroundColor: '#404a59',
+            title: {
+                text:"济南市游客排行榜"
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '0%',
+                right: '10%',
+                bottom: '0%',
+                containLabel: true
+            },
+            legend: {
+                left:"0",
+                top:"5%",
+                data: ['总人数', '外省人数','本省人数'],
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
+                minInterval:10000,
+                splitNumber:3
+            },
+            yAxis: {
+                type: 'category',
+                data:[ '历下区', '市中区', '历城区', '天桥区', '槐荫区', '章丘区'],
+            },
+            series: [
+                {
+                    name: '总人数',
+                    type: 'bar',
+                    data: [100000,100000,70000,30000,40000,30000],
+                },
+                {
+                    name: '外省人数',
+                    type: 'bar',
+                    data: [10000, 10000, 40000, 10000, 4562, 1237],
+                },
+                {
+                    name: '本省人数',
+                    type: 'bar',
+                    data: [80000,80000,30000,20000,30000,20000],
+                }
+            ],
+        };
+
+        var option3 = {
+            backgroundColor: '#404a59',
+            title: {
+                text:"济南各景区承载人数"
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '0%',
+                right: '10%',
+                bottom: '0%',
+                containLabel: true
+            },
+            legend: {
+                left:"0",
+                top:"3%",
+                data: ['实际人数','最佳承载人数'],
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01],
+                splitNumber:3
+            },
+            yAxis: {
+                type: 'category',
+                data:["趵突泉","千佛山","大明湖","百花公园","中山公园","济南动物园","济南植物园"]
+            },
+            series: [
+                {
+                    name: '实际人数',
+                    type: 'bar',
+                    stack: 'two',
+                    data: [1000,5000,6000,3000,2000,3000,4000],
+                },
+                {
+                    name: '最佳承载人数',
+                    type: 'line',
+                    stack: 'one',
+                    data: [2000,4000,7000,1000,2000,3000,3500],
+                },
+            ],
+        };
+
+        var option4 = {
+            title: {
+                text: '人数变化趋势',
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '0',
+                right: '0',
+                bottom: '0',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['8:00','10:00','12:00','14:00','16:00','18:00','20:00']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'邮件营销',
+                    type:'line',
+                    stack: '总量',
+                    data:[120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name:'联盟广告',
+                    type:'line',
+                    stack: '总量',
+                    data:[220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name:'视频广告',
+                    type:'line',
+                    stack: '总量',
+                    data:[150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name:'直接访问',
+                    type:'line',
+                    stack: '总量',
+                    data:[320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name:'搜索引擎',
+                    type:'line',
+                    stack: '总量',
+                    data:[820, 932, 901, 934, 1290, 1330, 1320]
+                },
+                {
+                    name:'邮件营销',
+                    type:'line',
+                    stack: '总量',
+                    data:[120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name:'联盟广告',
+                    type:'line',
+                    stack: '总量',
+                    data:[220, 182, 191, 234, 290, 330, 310]
+                }
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        if(type==2){
+            myChart2.setOption(option3);
+//            myChart2.on('click', function (params) {
+//                var city = params.name;
+//                loadChart(city,3);
+//            });
+
+        }
+        if(type==3){
+            myChart3.setOption(option4);
+//            myChart3.on('click', function (params) {
+//                var city = params.name;
+//                loadChart(city,4);
+//            });
+        }
+        if(type==5){
+            myChart5.setOption(option2);
+        }
+
+    }
+    loadChart("",2);
+    loadChart("济南市",3);
+    loadChart("",5);
+    var jinanarea=[ '历下区', '市中区', '历城区', '天桥区', '槐荫区', '章丘区'];
+    var jinanvalue=[1002, 2012, 3214, 1237, 4562, 1237];
+    var jinanval1=[211, 231, 232, 475, 842, 123];
+    // 初始化饼图
+    function loadPie(){
+        var option5 = {
+            title: {
+                text: '旅游综合热度+趋势图',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            grid: {
+                left: '0',
+                right: '0',
+                bottom: '0',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+
+            xAxis: [
+                {
+                    type: 'category',
+                    data:  [ '历下区', '市中区', '历城区', '天桥区', '槐荫区', '章丘区'],
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '',
+                    axisLabel: {
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '',
+                    min: 0,
+                    max: 25,
+                    interval: 5,
+                    axisLabel: {
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'蒸发量',
+                    type:'bar',
+                    data:[1002, 2012, 3214, 1237, 4562, 1237],
+                },
+                {
+                    name:'降水量',
+                    type:'line',
+                    data:[211, 231, 232, 475, 842, 123],
+                }
+            ]
+        };
+        myChart4.setOption(option5);
+    }
+    loadPie()
+</script>
+
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("main");
+    map.centerAndZoom(new BMap.Point(116.403765, 39.914850), 5);
+    map.enableScrollWheelZoom();
+
+    function getBoundary(){
+        var bdary = new BMap.Boundary();
+        bdary.get("济南市", function(rs){       //获取行政区域
+            map.clearOverlays();        //清除地图覆盖物
+            var count = rs.boundaries.length; //行政区域的点有多少个
+            if (count === 0) {
+                alert('未能获取当前输入行政区域');
+                return ;
+            }
+            var pointArray = [];
+            for (var i = 0; i < count; i++) {
+                var ply = new BMap.Polygon(rs.boundaries[i], {strokeWeight: 2, strokeColor: "#ff0000"}); //建立多边形覆盖物
+                map.addOverlay(ply);  //添加覆盖物
+                pointArray = pointArray.concat(ply.getPath());
+            }
+            map.setViewport(pointArray);    //调整视野
+            addlabel();
+        });
+    }
+
+    setTimeout(function(){
+        getBoundary();
+    }, 2000);
+
+    function addlabel() {
+        var pointArray = [
+            new BMap.Point(121.716076,23.703799),
+            new BMap.Point(112.121885,14.570616),
+            new BMap.Point(123.776573,25.695422)];
+        var optsArray = [{},{},{}];
+        var labelArray = [];
+        var contentArray = [
+            "台湾是中国的！",
+            "南海是中国的！",
+            "钓鱼岛是中国的！"];
+        for(var i = 0;i < pointArray.length; i++) {
+            optsArray[i].position = pointArray[i];
+            labelArray[i] = new BMap.Label(contentArray[i],optsArray[i]);
+            labelArray[i].setStyle({
+                color : "red",
+                fontSize : "12px",
+                height : "20px",
+                lineHeight : "20px",
+                fontFamily:"微软雅黑"
+            });
+            map.addOverlay(labelArray[i]);
+        }
+    }
+</script>
+
+</body>
+
+</html>

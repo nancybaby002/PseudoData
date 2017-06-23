@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <title></title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .form-select {
+            height: auto;
+        }
+
+        .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal" id="view-form">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">省份</label>
+                            <div class="col-xs-10">
+                                <select class="form-control m-b form-select" name="provinceid" disabled>
+                                    <option value="370000" selected>山东省</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">城市</label>
+
+                            <div class="col-xs-10">
+                                <select class="form-control m-b form-select" name="cityid" id="cityid">
+                                    <option value="" selected>--请选择--</option>
+                                    <option value="370100">济南</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">地区</label>
+
+                            <div class="col-xs-10">
+                                <select class="form-control m-b form-select" name="areaid" id="areaid">
+                                    <option value="" selected>--请选择--</option>
+                                    <option value="370102">历下区</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-8 col-xs-offset-2">
+                                <button class="btn btn-primary" type="submit" onclick="search()">查看</button>
+                                <button class="btn btn-white" type="submit">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/layer/layer.min.js"></script>
+<!-- Flot -->
+<script src="js/plugins/flot/jquery.flot.js"></script>
+<script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="js/plugins/flot/jquery.flot.pie.js"></script>
+
+<script>
+    function search() {
+        var viewlist = $("#view-form").serialize();
+        var target;
+        console.log($("#cityid").val()?true:false)
+        if ($("#areaid").val()){
+            target = "area.html?"
+        } else if ($("#cityid").val()){
+            target = "city.html?"
+        } else {
+            target = "province.html?"
+        }
+        top.location.href = target + viewlist
+    }
+</script>
+</body>
+
+</html>

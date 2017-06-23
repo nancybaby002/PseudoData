@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>衡实大数据可视化系统</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="css/menu.css" rel="stylesheet">
+    <style>
+        .nav-logo img{
+            width: 80%;
+            margin-left:14px;
+        }
+    </style>
+</head>
+
+<body class="fixed-sidebar full-height-layout" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <!--<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">-->
+                        <!--<span class="ng-scope">功能模块</span>-->
+                    <!--</li>-->
+                    <li>
+                        <a class="J_menuItem" href="menu_page_01.html">
+                            <span class="nav-label">实时访客人数总览</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="menu_page_03.html">
+                            <span class="nav-label">实时访客位置热力分布</span>
+                        </a>
+                    </li>
+                    <li>
+                    <a class="J_menuItem" href="menu_page_06.html">
+                        <span class="nav-label">客源地分析</span>
+                    </a>
+                    <a class="J_menuItem" href="menu_page_08.html">
+                        <span class="nav-label">客流分析</span>
+                    </a>
+                        <a class="J_menuItem" href="menu_page_09.html">
+                            <span class="nav-label">停留时长分析</span>
+                        </a>
+                </li>
+                    <!--<li class="line dk"></li>-->
+                    <!--<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">-->
+                        <!--<span class="ng-scope">分类</span>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="#">-->
+                            <!--<i class="fa fa fa-bar-chart-o"></i>-->
+                            <!--<span class="nav-label">业务设置</span>-->
+                            <!--<span class="fa arrow"></span>-->
+                        <!--</a>-->
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="index_v3.html"> 领导驾驶舱设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="index_v4.html">  重点地区、县区、景区设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#">  预警指标设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#"> 预警指标等级设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#"> 预警信号接收人设置</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="#">-->
+                            <!--<i class="fa fa fa-bar-chart-o"></i>-->
+                            <!--<span class="nav-label">系统设置</span>-->
+                            <!--<span class="fa arrow"></span>-->
+                        <!--</a>-->
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="index_v3.html"> 机构设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="index_v4.html">  权限设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#">  菜单设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#"> 预警指标设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#"> 个人设置</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="#"> 密码修改</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row J_mainContent" id="content-main">
+                <iframe id="J_iframe" width="100%" height="100%" src="menu_page_01.html" frameborder="0" data-id="menu_page_01.html" seamless></iframe>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="js/hAdmin.js?v=4.1.0"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+</body>
+
+</html>

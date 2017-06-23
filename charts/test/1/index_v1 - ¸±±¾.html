@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <title> - 主页示例</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        .form-select{
+            height: auto;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-2 m-b-xs">
+                            <select class=" form-control form-select input-s-sm inline">
+                                <option value="0">城市</option>
+                                <option value="1">总人数</option>
+                                <option value="2">外省人数</option>
+                                <option value="3">本省人数</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 m-b-xs">
+                            <select class="form-control form-select input-s-sm inline">
+                                <option value="0">区县</option>
+                                <option value="1">总人数</option>
+                                <option value="2">外省人数</option>
+                                <option value="3">本省人数</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 m-b-xs">
+                            <div data-toggle="buttons" class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary">查询</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="border-bottom:none;background:#fff;">
+                    <h5>访客位置热力分布</h5>
+                </div>
+                <div class="ibox-content" style="border-top:none;">
+                    <div id="main" style="height:600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/plugins/layer/layer.min.js"></script>
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+<!-- 自定义js -->
+<script src="echarts.js"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script src="http://gallery.echartsjs.com/dep/echarts/latest/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+<!--flotdemo-->
+<script type="text/javascript">
+    //         基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var uploadedDataURL = "hz.json";
+    $.getJSON(uploadedDataURL, function (data) {
+        var points = [].concat.apply([], data.map(function (track) {
+            return track.map(function (seg) {
+                return seg.coord.concat([1]);
+            });
+        }));
+        myChart.setOption({
+            animation: false,
+            bmap: {
+                center: [120.13066322374, 30.240018034923],
+                zoom: 14,
+                roam: true
+            },
+            visualMap: {
+                show: false,
+                top: 'top',
+                min: 0,
+                max: 5,
+                seriesIndex: 0,
+                calculable: true,
+                inRange: {
+                    color: ['blue', 'blue', 'green', 'yellow', 'red']
+                }
+            },
+            series: [{
+                type: 'heatmap',
+                coordinateSystem: 'bmap',
+                data: points,
+                pointSize: 5,
+                blurSize: 6
+            }]
+        });
+
+        var bmap = myChart.getModel().getComponent('bmap').getBMap();
+        bmap.addControl(new BMap.MapTypeControl());
+    });
+</script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart2 = echarts.init(document.getElementById('main2'));
+
+    // 指定图表的配置项和数据
+    option2 = {
+        title: {
+            text: '山东省实时游（访）客人数总览',
+            subtext: '数据来自网络'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: ['济南市', '德州市', '淄博市', '聊城市', '滨州市', '莱芜市', '泰安市','菏泽市','枣庄市','济宁市','临沂市','烟台市','青岛市','威海市','日照市','潍坊市','东营市']
+        },
+        series: [
+            {
+                name: '2011年',
+                type: 'bar',
+                data: [100212, 20123, 32145, 12375, 4562, 1237,60125,12345,4567,15856,16213,101234,145675,56412,21324,22347,23541]
+            }
+        ],
+        itemStyle: {
+            normal: {
+
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: '#23b7e5'
+                }, {
+                    offset: 1,
+                    color: '#23b7e5'
+                }])
+            }
+        }
+    };
+
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart2.setOption(option2);
+
+
+    window.addEventListener('resize', function () {
+        myChart.resize();
+        myChart2.resize();
+    })
+
+</script>
+</body>
+
+</html>

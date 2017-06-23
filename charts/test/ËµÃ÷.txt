@@ -1,0 +1,7 @@
+
+1.2 客流量大屏 http://192.168.1.118:8888/charts/keliuliang.html
+1.4 1 2 3 http://192.168.1.118:8888/charts/daping.html#
+1.4 4 热度 http://192.168.1.118:8888/charts/daping2.html#
+1.4 6 客源地 http://192.168.1.118:8888/charts/daping3.html#
+1.4 6 景气 http://192.168.1.118:8888/charts/daping3.html#
+1.5 迁移图大屏 http://192.168.1.118:8888/charts/qianyitu.html

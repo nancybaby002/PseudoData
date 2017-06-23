@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.js"></script>
+	<script src="shandong.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1000px;height:800px;margin:0 auto"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var chinaContourUrl = "shandong.json";
+
+$.getJSON(chinaContourUrl, function(json) {
+    echarts.registerMap('shandong', json);
+    myChart.setOption({
+        geo: [{
+            map: 'shandong',
+            itemStyle: {
+                normal: {
+                    borderWidth: 2,
+                    shadowBlur: 50,
+                    shadowColor: 'rgba(0, 0, 0, 0.2)',
+                    borderColor: '#aaa',
+                }
+            }
+        }]
+    });
+});
+
+function randomData() {
+    return Math.round(Math.random() * 1000);
+}
+
+option = {
+    title: {
+        text: '全国天气',
+        subtext: '污染指数',
+        left: 'center'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['2017年']
+    },
+    visualMap: {
+        min: 0,
+        max: 500,
+        left: 'left',
+        top: 'bottom',
+        text: ['高', '低'], // 文本，默认为数值文本
+        calculable: true,
+        inRange: {
+            color: ['#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        }
+    },
+    toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {
+                readOnly: false
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    series: [{
+            name: '2016年',
+            type: 'map',
+            mapType: 'shandong',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data: [{
+                name: '济南',
+                value: 298
+            }]
+        },
+
+
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

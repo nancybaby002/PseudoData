@@ -1,0 +1,59 @@
+
+body.fixed-sidebar .navbar-static-side {
+    /*display: none;*/
+}
+body.fixed-sidebar.mini-navbar .navbar-static-side {
+    width: 200px;
+    display: block;
+}
+.lock-word {
+    display: none;
+}
+.navbar-form-custom {
+    display: none;
+}
+.navbar-header {
+    display: inline;
+    float: left;
+}
+.sidebard-panel {
+    z-index: 2;
+    position: relative;
+    width: auto;
+    min-height: 100% !important;
+}
+.sidebar-content .wrapper {
+    padding-right: 0px;
+    z-index: 1;
+}
+.fixed-sidebar.body-small .navbar-static-side {
+    display: none;
+    z-index: 2001;
+    position: fixed;
+    width: 200px;
+}
+.fixed-sidebar.body-small.mini-navbar .navbar-static-side {
+    display: block;
+}
+.ibox-tools {
+    float: none;
+    text-align: right;
+    display: block;
+}
+.content-tabs {
+    display: none;
+}
+#content-main {
+    height: calc(100%);
+}
+.fixed-nav #content-main {
+    height: calc(100% - 50px);
+}
+
+body.fixed-sidebar.mini-navbar #page-wrapper {
+    margin: 0 0 0 200px;
+}
+body.mini-navbar .profile-element, body.mini-navbar .nav-label, body.mini-navbar .navbar-default .nav li a span {
+    display: block;
+    font-size: 14px;
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.js"></script>
+	<script src="china.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1000px;height:800px;margin:0 auto"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+       var chinaContourUrl = "data-1469097271266-SkyrH7CP.json";
+
+$.getJSON(chinaContourUrl, function(json) {
+    echarts.registerMap('china-contour', json);
+
+    myChart.setOption({
+        geo: [{
+            map: 'china',
+            itemStyle: {
+                normal: {
+                    borderWidth: 2,
+                    shadowBlur: 50,
+                    shadowColor: 'rgba(0, 0, 0, 0.2)',
+                    borderColor: '#aaa',
+                }
+            }
+        }]
+    });
+});
+var uploadedDataURL = "http://gallery.echartsjs.com/asset/get/s/data-1487164546975-SyiFER-Yg.txt";
+
+
+function randomData() {
+    return Math.round(Math.random() * 1000);
+}
+
+option = {
+    title: {
+        text: '全国天气',
+        subtext: '污染指数',
+        left: 'center'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['2017年']
+    },
+    visualMap: {
+        min: 0,
+        max: 500,
+        left: 'left',
+        top: 'bottom',
+        text: ['高', '低'], // 文本，默认为数值文本
+        calculable: true,
+        inRange: {
+            color: ['#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        }
+    },
+    toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {
+                readOnly: false
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    series: [{
+            name: '2016年',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data: [{
+                name: '北京',
+                value: 298
+            }, {
+                name: '天津',
+                value: 300
+            }, {
+                name: '上海',
+                value: 15
+            }, {
+                name: '重庆',
+                value: 51
+            }, {
+                name: '河北',
+                value: 455
+            }, {
+                name: '河南',
+                value: 320
+            }, {
+                name: '云南',
+                value: 75
+            }, {
+                name: '辽宁',
+                value: 333
+            }, {
+                name: '黑龙江',
+                value: 200
+            }, {
+                name: '湖南',
+                value: 14
+            }, {
+                name: '安徽',
+                value: 20
+            }, {
+                name: '山东',
+                value: 300
+            }, {
+                name: '新疆',
+                value: 300
+            }, {
+                name: '江苏',
+                value: 50
+            }, {
+                name: '浙江',
+                value: 4
+            }, {
+                name: '江西',
+                value: 52
+            }, {
+                name: '湖北',
+                value: 14
+            }, {
+                name: '广西',
+                value: 30
+            }, {
+                name: '甘肃',
+                value: 325
+            }, {
+                name: '山西',
+                value: 340
+            }, {
+                name: '内蒙古',
+                value: 400
+            }, {
+                name: '陕西',
+                value: 300
+            }, {
+                name: '吉林',
+                value: 333
+            }, {
+                name: '福建',
+                value: 15
+            }, {
+                name: '贵州',
+                value: 56
+            }, {
+                name: '广东',
+                value: 56
+            }, {
+                name: '青海',
+                value: 300
+            }, {
+                name: '西藏',
+                value: 219
+            }, {
+                name: '四川',
+                value: 200
+            }, {
+                name: '宁夏',
+                value: 300
+            }, {
+                name: '海南',
+                value: 10
+            }, {
+                name: '台湾',
+                value: 10
+            }, {
+                name: '香港',
+                value: 13
+            }, {
+                name: '澳门',
+                value: 55
+            }]
+        },
+
+
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

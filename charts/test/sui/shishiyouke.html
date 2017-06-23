@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>demo</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+</head>
+<body>
+
+    <div class="page">
+        <header class="bar bar-nav">
+            <a class="icon icon-menu pull-right" onclick=""></a>
+            <h1 class="title">实时游（访）客人数总览</h1>
+        </header>
+
+        <div class="content " data-distance="200" style="text-align: center">
+            <p>访客变化趋势</p>
+            <div class="card">
+                <div id="main" style="width: 350px;height:250px;"></div>
+            </div>
+            <p>访客排行</p>
+            <div class="card">
+                <div id="main2" style="width: 350px;height:250px;"></div>
+            </div>
+            <div class="list-block">
+            <ul>
+                <!-- Text inputs -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">选择地区</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="山东省 济南市 历下区">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+                </div>
+        </div>
+
+    </div>
+
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script src="../echarts.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+    <script src="http://gallery.echartsjs.com/dep/echarts/latest/extension/bmap.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            var myChart2 = echarts.init(document.getElementById('main2'));
+            // 指定图表的配置项和数据
+            option2 = {
+                title: {
+                    text: '山东省实时游（访）客人数总览',
+                    show:false
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['济南市', '德州市', '淄博市', '聊城市', '滨州市', '莱芜市', '泰安市','菏泽市','枣庄市','济宁市','临沂市','烟台市','青岛市','威海市','日照市','潍坊市','东营市']
+                },
+                series: [
+                    {
+                        name: '2011年',
+                        type: 'bar',
+                        data: [10000, 20000, 25000, 30000, 40000, 45000,50000,55000,66000,70000,80000,90000,100000,112000,120000,130000,150000]
+                    }
+                ],
+                itemStyle: {
+                    normal: {
+
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#23b7e5'
+                        }, {
+                            offset: 1,
+                            color: '#23b7e5'
+                        }])
+                    }
+                }
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart2.setOption(option2);
+            window.addEventListener('resize', function () {
+                myChart2.resize();
+            });
+        })();
+        (function (){
+            function series(name,type,stack,data){
+                this.name=name;
+                this.type=type;
+                this.stack=stack;
+                this.data=data;
+            }
+            var serieslist=[];
+            var myChart = echarts.init(document.getElementById('main'));
+            serieslist.splice(0, serieslist.length);
+            serieslist[0]=new series("外省人数","line","总量",[2000, 3000, 5000, 6000, 6000, 5000, 6000]);
+            serieslist[1]=new series("本省人数","line","总量",[5000, 6000, 5000, 6000, 5000, 5000, 2000]);
+            serieslist[2]=new series("总人数","line","总量",[7000, 9000, 10000, 12000, 11000, 10000, 8000]);
+            var option = {
+                backgroundColor:false,
+                title: {
+                    text: '当日人数变化趋势',
+                    left:'center',
+                    show:false,
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['8:00','12:00','14:00','16:00','18:00','20:00','22:00']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: serieslist
+            };
+            myChart.setOption(option,true);
+            window.addEventListener('resize', function () {
+                myChart.resize();
+            });
+        })();
+      </script>
+</body>
+</html>
